@@ -19,8 +19,16 @@ const placeSchema = new mongoose.Schema(
       required: true,
     },
     location: {
-      lat: { type: Number, required: true },
-      lng: { type: Number, required: true },
+      type: String,
+      required: true,
+    },
+    coordinates: {
+      lat: {
+        type: Number,
+      },
+      lng: {
+        type: Number,
+      },
     },
     ticketPrice: {
       type: Number,

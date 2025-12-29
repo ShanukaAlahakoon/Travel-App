@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -9,12 +11,11 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
 
       <Routes>
-        <Route
-          path="/"
-          element={<h1 className="text-center mt-10 text-2xl">Home Page</h1>}
-        />
+        <Route path="/*" element={<HomePage />} />
 
         <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route
           path="/admin/*"

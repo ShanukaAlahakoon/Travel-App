@@ -1,10 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: "#0f172a",   
-  --color-secondary: "#f8fafc", 
-  --color-accent: "#0ea5e9",   
-  --color-gold: "#fbbf24"       
-    }
+  /* Body එකට ලා පාටක් (Slate-100) */
+  --color-primary: #f1f5f9;
 
+  /* අකුරු වලට තද පාටක් (Slate-800) */
+  --color-secondary: #1e293b;
 
+  /* Navbar එකට කලින් තිබුණ තද නිල් පාට */
+  --color-dark-blue: #0f172a;
+
+  /* Accent Color (Sky Blue) */
+  --color-accent: #0ea5e9;
+
+  --color-gold: #fbbf24;
+}
