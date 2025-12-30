@@ -79,3 +79,27 @@ export function getUsersCount(req, res) {
       res.status(500).json({ error: "Failed to get user count" });
     });
 }
+
+export function getUser(req, res) {
+  if (req.user == null) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  res.json(req.user);
+}
+
+export async function getAllUsers(req, res) {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ message: "Admin access required" });
+  }
+
+  try {
+    const users = await User.find().select("-password");
+
+    res.json({ list: users });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching users", error: error.message });
+  }
+}

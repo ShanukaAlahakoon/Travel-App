@@ -3,6 +3,8 @@ import {
   registerUser,
   loginUser,
   getUsersCount,
+  getUser,
+  getAllUsers,
 } from "../controllers/userController.js";
 
 const userRouter = express.Router();
@@ -16,4 +18,9 @@ userRouter.post("/login", loginUser);
 // http://localhost:5000/api/users/count
 userRouter.get("/count", getUsersCount);
 
+// http://localhost:5000/api/users/
+userRouter.get("/", getUser);
+
+// http://localhost:5000/api/users/all
+userRouter.get("/all", getAllUsers);
 export default userRouter;

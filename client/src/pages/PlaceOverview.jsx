@@ -7,6 +7,7 @@ import {
   FaMoneyBillWave,
   FaArrowLeft,
 } from "react-icons/fa";
+import ImageSlider from "../components/ImageSlider.jsx";
 
 export default function PlaceOverview() {
   const { id } = useParams();
@@ -40,6 +41,11 @@ export default function PlaceOverview() {
     );
   }
 
+  const placeImages =
+    place.images && place.images.length > 0
+      ? place.images
+      : [place.image || "https://via.placeholder.com/600"];
+
   return (
     <div className="max-w-300 mx-auto px-4 py-10">
       {/* Back Button */}
@@ -54,16 +60,7 @@ export default function PlaceOverview() {
         {/* Left Side: Images */}
         <div className="space-y-4">
           <div className="h-100 rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-            <img
-              src={
-                place.images?.[0] ||
-                place.image ||
-                "https://via.placeholder.com/600"
-              }
-              alt={place.name}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
-            />
+            <ImageSlider images={placeImages} />
           </div>
         </div>
 

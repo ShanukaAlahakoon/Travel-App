@@ -19,6 +19,7 @@ export default function LoginPage() {
           password: password,
         }
       );
+      console.log("User Data:", res.data.result);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.result));
       toast.success("Login successful!");
