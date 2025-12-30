@@ -69,3 +69,13 @@ export function isAdmin(req) {
 
   return true;
 }
+
+export function getUsersCount(req, res) {
+  User.countDocuments()
+    .then((count) => {
+      res.json({ count: count });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: "Failed to get user count" });
+    });
+}

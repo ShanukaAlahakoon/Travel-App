@@ -1,13 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {
-  FaArrowRight,
-  FaPlane,
-  FaMapMarkedAlt,
-  FaQuoteLeft,
-} from "react-icons/fa";
+import { FaArrowRight, FaPlane, FaMapMarkedAlt } from "react-icons/fa";
 import PlaceCard from "../components/PlaceCard";
+import TestimonialSlider from "../components/ReviewSlider.jsx"; // 1. Import TestimonialSlider
 
 // --- ANIMATION COMPONENT ---
 const ScrollReveal = ({ children }) => {
@@ -50,6 +46,7 @@ export default function Home() {
   const [trendingPlaces, setTrendingPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch trending places from backend
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/places")
@@ -64,33 +61,9 @@ export default function Home() {
       });
   }, []);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Sarah Jenkins",
-      country: "UK",
-      text: "TravelMate made my Sri Lanka trip unforgettable! The AI route planning was spot on.",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      id: 2,
-      name: "Kasun Perera",
-      country: "Sri Lanka",
-      text: "Best app to find hidden gems in our own country. Highly recommended!",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-    {
-      id: 3,
-      name: "Amit Patel",
-      country: "India",
-      text: "Super easy to use. Loved the place recommendations and map integration.",
-      image: "https://randomuser.me/api/portraits/men/86.jpg",
-    },
-  ];
-
   return (
     <div className="w-full">
-      {/* SECTION 1: HERO SECTION  */}
+      {/*  SECTION 1: HERO SECTION  */}
       <div className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden bg-dark-blue">
         <div className="absolute inset-0 w-full h-full">
           <img
@@ -140,9 +113,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* SECTION 2: TRENDING DESTINATIONS */}
+      {/*  SECTION 2: TRENDING DESTINATIONS  */}
       <section className="py-16 px-4 bg-primary">
-        {" "}
         <div className="max-w-300 mx-auto">
           <ScrollReveal>
             <div className="text-center mb-10">
@@ -188,7 +160,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*  SECTION 3: TESTIMONIALS */}
+      {/*  SECTION 3: TESTIMONIALS  */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-300 mx-auto">
           <ScrollReveal>
@@ -203,32 +175,7 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-slate-50 p-8 rounded-3xl relative hover:-translate-y-2 transition-transform duration-300 shadow-sm hover:shadow-md"
-                >
-                  <FaQuoteLeft className="text-4xl text-accent/20 absolute top-6 left-6" />
-                  <p className="text-gray-600 italic mb-6 relative z-10 pt-6">
-                    "{item.text}"
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
-                    />
-                    <div>
-                      <h4 className="font-bold text-dark-blue">{item.name}</h4>
-                      <span className="text-xs text-accent font-bold uppercase">
-                        {item.country}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <TestimonialSlider />
           </ScrollReveal>
         </div>
       </section>

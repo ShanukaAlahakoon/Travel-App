@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 
 import userRouter from "./routes/userRouter.js";
 import placeRouter from "./routes/placeRouter.js";
+import reviewRouter from "./routes/reviewRouter.js";
 
 dotenv.config();
 const app = express();
@@ -38,6 +39,7 @@ mongoose.connect(mongoURI).then(() => {
 
 app.use("/api/users", userRouter);
 app.use("/api/places", placeRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.listen(5000, () => {
   console.log(`Server is running on port 5000`);
