@@ -20,6 +20,8 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import ImageSlider from "../components/ImageSlider.jsx";
+import ReviewSlider from "../components/ReviewSlider.jsx";
+import AddReview from "../components/AddReview.jsx";
 
 const containerStyle = { width: "100%", height: "500px" };
 
@@ -27,6 +29,8 @@ export default function PlaceOverview() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [reviews, setReviews] = useState([]);
 
   // States for Directions
   const [directionsResponse, setDirectionsResponse] = useState(null);
@@ -39,6 +43,15 @@ export default function PlaceOverview() {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
 
+  const fetchReviews = () => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/reviews/${id}`)
+      .then((res) => {
+        setReviews(res.data);
+      })
+      .catch((err) => console.log("Error fetching reviews:", err));
+  };
+
   useEffect(() => {
     // Fetch Place Details
     axios
@@ -48,6 +61,8 @@ export default function PlaceOverview() {
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));
+
+    fetchReviews();
 
     // Get User Current Location
     if (navigator.geolocation) {
@@ -104,6 +119,22 @@ export default function PlaceOverview() {
   if (isLoading || !isLoaded)
     return <div className="p-10 text-center">Loading...</div>;
 
+  const handleAddToTrip = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return toast.error("Please login first!");
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/trips/add`,
+        { placeId: id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success("Added to your Trip Plan!");
+    } catch (err) {
+      toast.error("Failed to add to trip");
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <Link
@@ -132,14 +163,17 @@ export default function PlaceOverview() {
           <div className="bg-slate-50 p-6 rounded-2xl mb-8 border border-gray-100 text-gray-600 leading-relaxed">
             {place.description}
           </div>
-          <button className="w-full bg-dark-blue hover:bg-accent text-white py-5 rounded-2xl font-bold shadow-xl transition-all">
+          <button
+            onClick={handleAddToTrip}
+            className="w-full bg-dark-blue hover:bg-accent text-white py-5 rounded-2xl font-bold shadow-xl transition-all"
+          >
             Add to Trip Plan
           </button>
         </div>
       </div>
 
       {place.coordinates && (
-        <div className="relative rounded-[2.5rem] overflow-hidden border shadow-2xl group">
+        <div className="relative rounded-[2.5rem] overflow-hidden border shadow-2xl group mb-20">
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={
@@ -224,6 +258,24 @@ export default function PlaceOverview() {
           )}
         </div>
       )}
+
+      {/* Traveler Reviews Section */}
+      <section className="mb-20">
+        <h2 className="text-2xl font-black text-dark-blue mb-8">
+          Traveler Reviews
+        </h2>
+        {reviews.length > 0 ? (
+          <ReviewSlider reviews={reviews} />
+        ) : (
+          <div className="bg-gray-50 p-10 rounded-[2.5rem] text-center border border-dashed">
+            <p className="text-gray-400">
+              No reviews yet for this place. Be the first!
+            </p>
+          </div>
+        )}
+      </section>
+
+      <AddReview placeId={id} onReviewAdded={fetchReviews} />
     </div>
   );
 }

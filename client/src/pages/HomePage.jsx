@@ -6,6 +6,7 @@ import Places from "./Places.jsx";
 import About from "./About.jsx";
 import Contact from "./Contact.jsx";
 import PlaceOverview from "./PlaceOverview.jsx";
+import MyPlan from "./MyPlan.jsx";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/places/:id" element={<PlaceOverview />} />
+          <Route path="/my-plan" element={<MyPlan />} />
 
           <Route
             path="/*"

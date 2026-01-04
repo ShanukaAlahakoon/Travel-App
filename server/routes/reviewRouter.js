@@ -9,7 +9,7 @@ import {
 const reviewRouter = express.Router();
 
 // 1. Add Review (General Route)
-reviewRouter.post("/", addReview);
+reviewRouter.post("/add", addReview);
 
 // 2. Get WEBSITE Reviews (මේක අනිවාර්යයෙන්ම ID Route එකට උඩින් තියෙන්න ඕන)
 reviewRouter.get("/website", getWebsiteReviews);

@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaArrowRight, FaPlane, FaMapMarkedAlt } from "react-icons/fa";
 import PlaceCard from "../components/PlaceCard";
-import TestimonialSlider from "../components/ReviewSlider.jsx"; // 1. Import TestimonialSlider
+import TestimonialSlider from "../components/ReviewSlider.jsx";
 
-// --- ANIMATION COMPONENT ---
+//ANIMATION COMPONENT
 const ScrollReveal = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -20,11 +20,7 @@ const ScrollReveal = ({ children }) => {
       },
       { threshold: 0.1 }
     );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
@@ -44,26 +40,34 @@ const ScrollReveal = ({ children }) => {
 
 export default function Home() {
   const [trendingPlaces, setTrendingPlaces] = useState([]);
+  const [webReviews, setWebReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch trending places from backend
   useEffect(() => {
+    // Fetch trending places
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/places")
       .then((res) => {
         const allPlaces = res.data.list || res.data;
         setTrendingPlaces(allPlaces.slice(0, 3));
+      })
+      .catch((err) => console.error("Error fetching places:", err));
+
+    axios
+      .get(import.meta.env.VITE_BACKEND_URL + "/reviews/website")
+      .then((res) => {
+        setWebReviews(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching places:", err);
+        console.error("Error fetching reviews:", err);
         setIsLoading(false);
       });
   }, []);
 
   return (
     <div className="w-full">
-      {/*  SECTION 1: HERO SECTION  */}
+      {/* SECTION 1: HERO SECTION */}
       <div className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden bg-dark-blue">
         <div className="absolute inset-0 w-full h-full">
           <img
@@ -113,7 +117,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/*  SECTION 2: TRENDING DESTINATIONS  */}
+      {/* SECTION 2: TRENDING DESTINATIONS */}
       <section className="py-16 px-4 bg-primary">
         <div className="max-w-300 mx-auto">
           <ScrollReveal>
@@ -160,7 +164,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*  SECTION 3: TESTIMONIALS  */}
+      {/* SECTION 3: TESTIMONIALS */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-300 mx-auto">
           <ScrollReveal>
@@ -175,34 +179,26 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <TestimonialSlider />
+            {webReviews.length > 0 ? (
+              <TestimonialSlider reviews={webReviews} />
+            ) : (
+              <p className="text-center text-gray-400 italic">
+                No website reviews available yet.
+              </p>
+            )}
           </ScrollReveal>
         </div>
       </section>
 
-      {/* Styles */}
       <style>{`
-        @keyframes zoomIn {
-          0% { transform: scale(1); }
-          100% { transform: scale(1.1); }
-        }
-        .animate-fade-in-down {
-          animation: fadeInDown 0.8s ease-out forwards;
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
+        @keyframes zoomIn { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        .animate-fade-in-down { animation: fadeInDown 0.8s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
         .delay-100 { animation-delay: 0.2s; }
         .delay-200 { animation-delay: 0.4s; }
         .delay-300 { animation-delay: 0.6s; }
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
     </div>
   );

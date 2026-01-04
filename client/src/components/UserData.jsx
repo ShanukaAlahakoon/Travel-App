@@ -5,6 +5,7 @@ import {
   FaSignOutAlt,
   FaChevronDown,
   FaUserCircle,
+  FaSuitcaseRolling,
 } from "react-icons/fa";
 
 export default function UserData() {
@@ -54,7 +55,6 @@ export default function UserData() {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center gap-3 border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all cursor-pointer outline-none"
           >
-            {/* User Image */}
             <div className="w-8 h-8 rounded-full overflow-hidden border border-accent flex items-center justify-center bg-gray-800 shrink-0">
               {getUserImage() ? (
                 <img
@@ -82,7 +82,6 @@ export default function UserData() {
           {/* --- DROPDOWN MENU --- */}
           {isOpen && (
             <div className="absolute right-0 mt-3 w-48 bg-dark-blue border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 animate-fade-in-down">
-              {/* Menu Items */}
               <div className="py-2">
                 {/* Profile Link */}
                 <Link
@@ -91,6 +90,14 @@ export default function UserData() {
                   onClick={() => setIsOpen(false)}
                 >
                   <FaUserCircle /> My Profile
+                </Link>
+
+                <Link
+                  to="/my-plan"
+                  className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FaSuitcaseRolling className="text-accent" /> My Plan
                 </Link>
 
                 {/* Admin Dashboard Link (Only for Admins) */}
