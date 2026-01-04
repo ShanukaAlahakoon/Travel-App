@@ -2,6 +2,7 @@ import Place from "../models/Place.js";
 import { isAdmin } from "./userController.js";
 
 export function createPlace(req, res) {
+  console.log("Create Place Request Body:", req.body);
   if (!isAdmin(req)) {
     res.status(403).json({
       message: "Please login as Administrator to add places",
@@ -17,6 +18,7 @@ export function createPlace(req, res) {
       res.json({ message: "Place added successfully" });
     })
     .catch((error) => {
+      console.error("Error saving place:", error);
       res.status(500).json({
         message: "Error adding place",
         error: error.message,
@@ -109,4 +111,20 @@ export function deletePlace(req, res) {
         error: error.message,
       });
     });
+}
+
+export async function searchPlaces(req, res) {
+  const query = req.params.query;
+
+  try {
+    const places = await Place.find({
+      name: { $regex: "^" + query, $options: "i" },
+    });
+    return res.json(places);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error searching places",
+      error: error.message,
+    });
+  }
 }

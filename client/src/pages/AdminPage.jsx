@@ -13,6 +13,8 @@ import AdminDashboard from "./admin/AdminDashboard";
 import AdminPlaces from "./admin/AdminPlaces";
 import AdminUsers from "./admin/AdminUsers";
 import AdminReviews from "./admin/AdminReviews";
+import AdminAddPlace from "./admin/AdminAddPlace";
+import AdminUpdatePlace from "./admin/AdminUpdatePlace";
 
 export default function AdminPage() {
   const [user, setUser] = useState(null);
@@ -128,6 +130,8 @@ export default function AdminPage() {
               <Route path="/places" element={<AdminPlaces />} />
               <Route path="/users" element={<AdminUsers />} />
               <Route path="/reviews" element={<AdminReviews />} />
+              <Route path="/add-place" element={<AdminAddPlace />} />
+              <Route path="/places/update/:id" element={<AdminUpdatePlace />} />
               <Route
                 path="*"
                 element={

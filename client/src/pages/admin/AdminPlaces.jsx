@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { FaTrash, FaPlus } from "react-icons/fa";
+import { FaTrash, FaPlus, FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function AdminPlaces() {
@@ -25,7 +25,6 @@ export default function AdminPlaces() {
     fetchPlaces();
   }, []);
 
-  // Delete Function
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this place?")) {
       const token = localStorage.getItem("token");
@@ -35,7 +34,7 @@ export default function AdminPlaces() {
         })
         .then(() => {
           toast.success("Place deleted successfully");
-          fetchPlaces(); // Refresh the list
+          fetchPlaces();
         })
         .catch(() => {
           toast.error("Failed to delete place");
@@ -44,7 +43,7 @@ export default function AdminPlaces() {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-dark-blue">Manage Places</h2>
         <Link
@@ -66,7 +65,7 @@ export default function AdminPlaces() {
                 <th className="p-4 border-b">Name</th>
                 <th className="p-4 border-b">Category</th>
                 <th className="p-4 border-b">Location</th>
-                <th className="p-4 border-b text-right">Action</th>
+                <th className="p-4 border-b text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -98,13 +97,27 @@ export default function AdminPlaces() {
                   <td className="p-4 text-gray-500 text-sm">
                     {place.location}
                   </td>
-                  <td className="p-4 text-right">
-                    <button
-                      onClick={() => handleDelete(place._id)}
-                      className="bg-red-50 text-red-500 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-all"
-                    >
-                      <FaTrash />
-                    </button>
+
+                  <td className="p-4 text-center">
+                    <div className="flex justify-center gap-2">
+                      {/* Edit Button */}
+                      <Link
+                        to={`/admin/places/update/${place._id}`}
+                        className="bg-blue-50 text-blue-500 p-2 rounded-lg hover:bg-blue-500 hover:text-white transition-all shadow-sm"
+                        title="Edit Place"
+                      >
+                        <FaEdit />
+                      </Link>
+
+                      {/* Delete Button */}
+                      <button
+                        onClick={() => handleDelete(place._id)}
+                        className="bg-red-50 text-red-500 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                        title="Delete Place"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

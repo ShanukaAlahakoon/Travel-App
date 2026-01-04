@@ -35,7 +35,7 @@ export default function UserData() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   const getUserImage = () => {
