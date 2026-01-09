@@ -93,7 +93,7 @@ export default function UserData() {
                 </Link>
 
                 <Link
-                  to="/my-plan"
+                  to="/trip-plan"
                   className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
                   onClick={() => setIsOpen(false)}
                 >

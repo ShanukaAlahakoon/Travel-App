@@ -22,6 +22,7 @@ import {
 import ImageSlider from "../components/ImageSlider.jsx";
 import ReviewSlider from "../components/ReviewSlider.jsx";
 import AddReview from "../components/AddReview.jsx";
+import { addToTripPlan } from "../utils/tripUtils.js";
 
 const containerStyle = { width: "100%", height: "500px" };
 
@@ -116,24 +117,15 @@ export default function PlaceOverview() {
     setTravelMode(mode);
   };
 
+  const handleAddToTrip = () => {
+    const user = localStorage.getItem("user");
+    if (!user) return toast.error("Please login first to plan your trip!");
+
+    addToTripPlan(place);
+  };
+
   if (isLoading || !isLoaded)
     return <div className="p-10 text-center">Loading...</div>;
-
-  const handleAddToTrip = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return toast.error("Please login first!");
-
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/trips/add`,
-        { placeId: id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.success("Added to your Trip Plan!");
-    } catch (err) {
-      toast.error("Failed to add to trip");
-    }
-  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
